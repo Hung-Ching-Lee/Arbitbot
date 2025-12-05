@@ -1,0 +1,27 @@
+# Arbitbot 配置文件示例
+# 將此文件複製為 config.yaml 並填入真實信息
+
+# 交易所配置
+exchanges:
+  exchange1: binance
+  exchange2: bybit
+  # 可選：exchange3: okx
+
+# Telegram 通知配置
+telegram:
+  token: "YOUR_TELEGRAM_BOT_TOKEN"
+  chat_id: "YOUR_CHAT_ID"
+
+# 套利參數
+arbitrage:
+  # 利潤閾值（百分比）
+  profit_threshold: 0.5
+  
+  # 監控的交易對
+  symbols:
+    - BTC/USDT
+    - ETH/USDT
+    - BNB/USDT
+  
+  # 檢查間隔（秒）
+  check_interval: 60

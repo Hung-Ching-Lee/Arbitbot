@@ -1,0 +1,17 @@
+node_modules/
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+.env
+.venv
+venv/
+config/config.yaml
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
