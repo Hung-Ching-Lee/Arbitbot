@@ -2,17 +2,14 @@
 Arbitbot - Simple Multi-Exchange Crypto Arbitrage Detector
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.1"
 __author__ = "Hung-Ching-Lee"
 
-from .detector import ArbitrageDetector
-from .telegram_notifier import send_telegram_notification
-from .config import CRYPTO_PAIRS, ALL_EXCHANGES, DEFAULT_FEES
+from .detector import ArbitrageDetector, show_gui, CRYPTO_PAIRS, ALL_EXCHANGES
 
 __all__ = [
     "ArbitrageDetector",
-    "send_telegram_notification",
+    "show_gui",
     "CRYPTO_PAIRS",
     "ALL_EXCHANGES",
-    "DEFAULT_FEES",
 ]

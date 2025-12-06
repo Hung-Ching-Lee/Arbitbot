@@ -1,10 +1,10 @@
-# Arbitbot
+# Arbitbot 🚀
 
-Simple multi-exchange cryptocurrency arbitrage detector.
+Simple multi-exchange cryptocurrency arbitrage detector with interactive GUI.
 
 ## What It Does
 
-Arbitbot monitors real-time prices across 9 major exchanges and detects arbitrage opportunities - situations where you can buy crypto at one exchange and sell at another for profit.
+Arbitbot monitors real-time prices across multiple exchanges and detects arbitrage opportunities automatically. Simply run the notebook, and an interactive GUI appears for easy configuration and monitoring.
 
 ## Installation
 
@@ -14,53 +14,56 @@ pip install arbitbot
 
 ## Quick Start
 
-Open the Jupyter notebook and click the GUI buttons:
+```python
+from arbitbot import show_gui
 
-```bash
-jupyter notebook Arbitbot_Interactive.ipynb
+# Launch GUI
+show_gui()
 ```
 
-That's it! The interface shows:
-1. **Select Exchanges** - Choose which exchanges to monitor
-2. **Select Cryptos** - Choose which cryptocurrencies to track
-3. **Set Profit Threshold** - Minimum profit percentage
-4. **Configure Telegram (Optional)** - Get notifications
-5. Click **Start Detection**
+The interactive GUI will appear with all controls:
+
+- **Exchanges**: Select from 9 major exchanges
+- **Cryptocurrencies**: Choose from 14+ trading pairs
+- **Fees**: Adjust taker fees per exchange
+- **Profit Threshold**: Set minimum profit percentage
+- **Check Interval**: Set detection frequency (30s - 1hr)
+- **Telegram**: Optional notifications
+- **Results**: Real-time arbitrage opportunities display
 
 ## Features
 
-- 9 Exchanges: Binance, Bybit, OKX, KuCoin, Huobi, Gate, Kraken, Coinbase, Bitfinex
-- 14+ Cryptocurrencies: BTC, ETH, XRP, DOGE, SOL, ADA, DOT, LTC, BCH, LINK, VET, TRX, MATIC, AVAX
-- Real-time price fetching with CCXT
-- Complete pairing - finds all exchange combinations
-- Customizable fees per exchange
-- Telegram notifications (optional)
-- Live results table
+- **9 Exchanges**: Binance, Bybit, OKX, KuCoin, Huobi, Gate, Kraken, Coinbase, Bitfinex
+- **14+ Cryptocurrencies**: BTC, ETH, XRP, DOGE, SOL, ADA, DOT, LTC, BCH, LINK, VET, TRX, MATIC, AVAX
+- **Real-time Price Fetching**: CCXT library for accurate market data
+- **Customizable Fees**: Adjust per-exchange taker fees in GUI
+- **Telegram Notifications**: Get alerts for detected opportunities (optional)
+- **Live Results Display**: Top 10 opportunities with profit calculations
 
-## Python Usage
+## How It Works
 
-```python
-from arbitbot import ArbitrageDetector
+1. Selects exchanges and cryptocurrencies via GUI
+2. Fetches current bid/ask prices from all exchanges in parallel
+3. Calculates all N×(N-1) trading pair combinations per crypto
+4. Applies exchange-specific fees to identify profitable arbitrage
+5. Displays results in real-time table format
+6. Optionally sends Telegram notifications
 
-detector = ArbitrageDetector()
-detector.fees = {'binance': 0.001, 'bybit': 0.0007}
-detector.initialize_exchanges(['binance', 'bybit'])
-
-crypto = {'symbol': 'BTC/USDT', 'name': 'Bitcoin'}
-prices = detector.get_crypto_all_prices(crypto, ['binance', 'bybit'])
-opportunities = detector.find_all_arbitrage_pairs(prices, detector.fees)
-
-for opp in opportunities:
-    print(f"Profit: {opp['profit_percent']:.2f}%")
-```
-
-## Telegram Notifications
+## Example Usage
 
 ```python
-from arbitbot import send_telegram_notification
-
-send_telegram_notification(token, chat_id, opportunities, timestamp)
+# In a Jupyter notebook cell:
+from arbitbot import show_gui
+show_gui()
 ```
+
+This launches the interactive GUI where you can:
+- Select exchanges (e.g., Binance, Bybit, OKX)
+- Choose cryptocurrencies to monitor
+- Set minimum profit threshold (default: 0.5%)
+- Configure detection interval (default: 30 seconds)
+- Enable Telegram notifications with your bot token
+- Click **Start Detection** to begin monitoring
 
 ## License
 

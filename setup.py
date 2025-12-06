@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="arbitbot",
-    version="0.1.1",
+    version="0.2.1",
     author="Hung-Ching-Lee",
     description="Simple multi-exchange crypto arbitrage detector",
     long_description=open("README.md").read(),
