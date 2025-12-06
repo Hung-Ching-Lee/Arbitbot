@@ -2,7 +2,6 @@
 Configuration and Constants
 """
 
-# Supported cryptocurrencies
 CRYPTO_PAIRS = [
     {'symbol': 'BTC/USDT', 'name': 'Bitcoin'},
     {'symbol': 'ETH/USDT', 'name': 'Ethereum'},
@@ -20,20 +19,11 @@ CRYPTO_PAIRS = [
     {'symbol': 'AVAX/USDT', 'name': 'Avalanche'},
 ]
 
-# Supported exchanges
 ALL_EXCHANGES = [
-    'binance',
-    'bybit',
-    'okx',
-    'kucoin',
-    'huobi',
-    'gate',
-    'kraken',
-    'coinbase',
-    'bitfinex'
+    'binance', 'bybit', 'okx', 'kucoin', 'huobi', 
+    'gate', 'kraken', 'coinbase', 'bitfinex'
 ]
 
-# Default taker fees per exchange
 DEFAULT_FEES = {
     'binance': 0.001,
     'bybit': 0.0007,
@@ -45,17 +35,3 @@ DEFAULT_FEES = {
     'coinbase': 0.004,
     'bitfinex': 0.001,
 }
-
-# Check intervals (seconds)
-CHECK_INTERVALS = {
-    '30s': 30,
-    '1min': 60,
-    '5min': 300,
-    '10min': 600,
-    '30min': 1800,
-    '1hr': 3600,
-}
-
-# Profit threshold range
-MIN_PROFIT_THRESHOLD = 0.01  # 0.01%
-MAX_PROFIT_THRESHOLD = 5.0   # 5.0%
