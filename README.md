@@ -21,6 +21,8 @@ from arbitbot import show_gui
 show_gui()
 ```
 
+![Arbitbot GUI Screenshot](images/gui-screenshot.png)
+
 The interactive GUI will appear with all controls:
 
 - **Exchanges**: Select from 9 major exchanges
@@ -48,22 +50,6 @@ The interactive GUI will appear with all controls:
 4. Applies exchange-specific fees to identify profitable arbitrage
 5. Displays results in real-time table format
 6. Optionally sends Telegram notifications
-
-## Example Usage
-
-```python
-# In a Jupyter notebook cell:
-from arbitbot import show_gui
-show_gui()
-```
-
-This launches the interactive GUI where you can:
-- Select exchanges (e.g., Binance, Bybit, OKX)
-- Choose cryptocurrencies to monitor
-- Set minimum profit threshold (default: 0.5%)
-- Configure detection interval (default: 30 seconds)
-- Enable Telegram notifications with your bot token
-- Click **Start Detection** to begin monitoring
 
 ## License
 
