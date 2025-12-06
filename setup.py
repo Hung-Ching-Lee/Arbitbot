@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+Setup configuration for arbitbot package
+"""
+
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -6,35 +11,28 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="arbitbot",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
-    description="加密貨幣跨交易所套利機器人",
+    author="Hung-Ching-Lee",
+    description="Multi-exchange cryptocurrency arbitrage detection tool using CCXT",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/arbitbot",
+    url="https://github.com/Hung-Ching-Lee/Arbitbot",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Topic :: Office/Business :: Financial",
-        "Intended Audience :: Developers",
+        "Intended Audience :: Financial and Insurance Industry",
+        "Topic :: Office/Business :: Financial :: Investment",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=[
-        "ccxt>=2.0",
-        "python-telegram-bot>=13.0",
-        "pyyaml>=5.0",
-        "requests>=2.25.0",
+        "ccxt>=1.80.0",
+        "requests>=2.28.0",
+        "pandas>=1.5.0",
+        "ipywidgets>=8.0.0",
     ],
-    entry_points={
-        "console_scripts": [
-            "arbitbot=main:main",
-        ],
-    },
 )

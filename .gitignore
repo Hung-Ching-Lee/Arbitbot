@@ -1,17 +1,47 @@
-node_modules/
-*.pyc
+# Python
 __pycache__/
-*.egg-info/
-dist/
+*.py[cod]
+*$py.class
+*.so
+.Python
 build/
-.env
-.venv
-venv/
-config/config.yaml
-*.log
-.DS_Store
-.idea/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
+
+# OS
+.DS_Store
+.env
+.env.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Distribution
+dist/
+build/
+*.tar.gz

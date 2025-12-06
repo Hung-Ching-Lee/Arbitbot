@@ -1,162 +1,153 @@
-# Arbitbot - 加密貨幣跨交易所套利機器人
+# Arbitbot - Multi-Exchange Crypto Arbitrage Detector
 
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Python](https://img.shields.io/badge/python-3.7+-blue)
+A powerful tool to detect cryptocurrency arbitrage opportunities across multiple exchanges in real-time using CCXT.
 
-## 📌 功能介紹
+## Features
 
-Arbitbot 是一個輕量級的加密貨幣跨交易所套利檢測機器人，主要功能包括：
+✨ **Real-time Arbitrage Detection**
+- Monitors 14+ cryptocurrencies across 9 major exchanges
+- Complete pairing mode: generates all A→B combinations for maximum opportunity coverage
+- Real data only - no simulations or mock data
 
-- 🔍 **多交易所價格監控** - 使用 CCXT 庫實時獲取多個交易所的價格
-- 💹 **自動套利檢測** - 自動識別價差大於設定閾值的套利機會
-- 📢 **Telegram 即時通知** - 發現機會立即推送到 Telegram
-- 📊 **詳細日誌記錄** - 完整的操作和交易記錄
-- ⚙️ **靈活配置** - 易於配置的 YAML 配置文件
+🚀 **Multi-Exchange Support**
+- Binance, Bybit, OKX, KuCoin, Huobi, Gate, Kraken, Coinbase, Bitfinex
+- Concurrent price fetching with built-in rate limiting
+- Automatic exchange connection management
 
-## 🚀 快速開始
+📊 **Advanced Features**
+- Configurable profit threshold (0.01% - 5.0%)
+- Customizable taker fees per exchange
+- Real-time result display with top 10 opportunities
+- Concurrent processing for fast detection
 
-### 安裝依賴
+🔔 **Telegram Notifications**
+- Push notifications for profitable arbitrage opportunities
+- HTML-formatted messages with detailed profit information
+- Configurable alerts
+
+## Installation
+
+### From PyPI
+```bash
+pip install arbitbot
+```
+
+### From Source
+```bash
+git clone https://github.com/Hung-Ching-Lee/Arbitbot.git
+cd Arbitbot
+pip install -e .
+```
+
+## Quick Start
+
+### 1. Interactive Jupyter Notebook (Recommended)
 
 ```bash
-pip install -r requirements.txt
+jupyter notebook Arbitbot_Interactive.ipynb
 ```
 
-### 配置
+Then:
+1. Select exchanges to monitor (multi-select)
+2. Choose cryptocurrencies (multi-select)
+3. Set minimum profit threshold
+4. Configure Telegram (optional)
+5. Click "🚀 Start Detection"
 
-1. 複製配置模板：
-```bash
-cp config/config.example.yaml config/config.yaml
-```
-
-2. 編輯 `config/config.yaml` 並填入你的信息：
-   - Telegram Bot Token 和 Chat ID
-   - 交易所名稱
-   - 監控的交易對
-   - 利潤閾值
-
-### 運行
-
-```bash
-python main.py
-```
-
-## 📋 配置說明
-
-### config.yaml
-
-```yaml
-exchanges:
-  exchange1: binance      # 交易所1
-  exchange2: bybit        # 交易所2
-
-telegram:
-  token: "YOUR_TOKEN"     # Telegram Bot Token
-  chat_id: "YOUR_CHAT_ID" # 接收通知的 Chat ID
-
-arbitrage:
-  profit_threshold: 0.5   # 利潤閾值（百分比）
-  symbols:                # 監控的交易對
-    - BTC/USDT
-    - ETH/USDT
-  check_interval: 60      # 檢查間隔（秒）
-```
-
-## 🔧 模組說明
-
-| 模組 | 功能 |
-|------|------|
-| `arbitbot.config` | 配置管理 |
-| `arbitbot.fetcher` | CCXT 數據獲取 |
-| `arbitbot.arbitrage` | 套利檢測和計算 |
-| `arbitbot.notifier` | Telegram 通知 |
-| `arbitbot.utils` | 工具函數 |
-
-## 📦 PyPI 發佈
-
-### 1. 安裝打包工具
-
-```bash
-pip install build twine
-```
-
-### 2. 構建包
-
-```bash
-python -m build
-```
-
-### 3. 上傳到 PyPI
-
-```bash
-twine upload dist/*
-```
-
-> 需要在 PyPI 註冊帳號並配置 `~/.pypirc`
-
-## 🐙 GitHub 發佈
-
-### 1. 初始化 Git 倉庫
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
-
-### 2. 推送到 GitHub
-
-```bash
-git remote add origin https://github.com/yourusername/arbitbot.git
-git branch -M main
-git push -u origin main
-```
-
-### 3. 創建 Release
-
-在 GitHub 上創建 Release 標籤，自動觸發 CI/CD 流程
-
-## 📝 使用示例
+### 2. Python Script
 
 ```python
-from arbitbot import ArbitrageBot, TelegramNotifier
-from arbitbot.config import Config
+from arbitbot import ArbitrageDetector, send_telegram_notification
 
-# 加載配置
-config = Config('config/config.yaml')
+# Initialize detector
+detector = ArbitrageDetector()
 
-# 初始化機器人
-bot = ArbitrageBot(
-    exchanges=['binance', 'bybit'],
-    profit_threshold=0.5
-)
+# Set fees for exchanges
+detector.fees = {
+    'binance': 0.001,
+    'bybit': 0.0007,
+    'okx': 0.0008,
+}
 
-# 尋找套利機會
-opportunities = bot.find_opportunities(['BTC/USDT', 'ETH/USDT'])
+# Initialize exchanges
+exchanges = ['binance', 'bybit', 'okx']
+detector.initialize_exchanges(exchanges)
 
-# 發送通知
-notifier = TelegramNotifier(config.get('telegram.token'),
-                           config.get('telegram.chat_id'))
-notifier.notify_opportunities(opportunities)
+# Define cryptocurrency to monitor
+crypto = {'symbol': 'BTC/USDT', 'name': 'Bitcoin'}
+
+# Get prices from all exchanges
+price_data = detector.get_crypto_all_prices(crypto, exchanges)
+
+# Find arbitrage opportunities
+opportunities = detector.find_all_arbitrage_pairs(price_data)
+
+# Filter by profit threshold
+profitable = [op for op in opportunities if op['profit_percent'] >= 0.5]
+
+# Print results
+for op in profitable:
+    print(f"Buy {op['symbol']} at {op['buy_exchange']} for \${op['buy_price']:.6f}")
+    print(f"Sell at {op['sell_exchange']} for \${op['sell_price']:.6f}")
+    print(f"Profit: {op['profit_percent']:.4f}%\n")
+
+# Send Telegram notification
+if profitable:
+    best = max(profitable, key=lambda x: x['profit_percent'])
+    msg = f"Arbitrage: Buy {best['buy_exchange']} @ \${best['buy_price']:.6f}, Sell {best['sell_exchange']} @ \${best['sell_price']:.6f}, Profit: {best['profit_percent']:.4f}%"
+    send_telegram_notification(TOKEN, CHAT_ID, msg)
 ```
 
-## 🧪 測試
+## Telegram Configuration
 
-```bash
-pytest tests/
+### Get Bot Token
+1. Message [@BotFather](https://t.me/BotFather) on Telegram
+2. Send `/newbot` and follow instructions
+3. Copy the token provided
+
+### Get Chat ID
+1. Message [@userinfobot](https://t.me/userinfobot)
+2. Reply will contain your Chat ID
+3. Send any message to your bot to activate it
+
+## Supported Cryptocurrencies
+
+BTC, ETH, XRP, DOGE, SOL, ADA, DOT, LTC, BCH, LINK, VET, TRX, MATIC, AVAX
+
+## Supported Exchanges
+
+Binance, Bybit, OKX, KuCoin, Huobi, Gate, Kraken, Coinbase, Bitfinex
+
+## API Reference
+
+### ArbitrageDetector
+
+```python
+detector = ArbitrageDetector()
+detector.initialize_exchanges(['binance', 'bybit'])
+detector.fees = {'binance': 0.001, 'bybit': 0.0007}
+price_data = detector.get_crypto_all_prices(crypto, exchanges)
+opportunities = detector.find_all_arbitrage_pairs(price_data)
 ```
 
-## 📄 License
+### Telegram Notifications
 
-MIT License - 詳見 [LICENSE](LICENSE)
+```python
+from arbitbot import send_telegram_notification
+send_telegram_notification(token, chat_id, message)
+```
 
-## ⚠️ 免責聲明
+## Requirements
 
-本工具僅供教育和研究用途。使用者應自行承擔使用本工具進行交易的所有風險和損失。作者不承擔任何法律責任。
+- Python ≥ 3.8
+- ccxt ≥ 1.80.0
+- requests ≥ 2.28.0
+- pandas ≥ 1.5.0
 
-## 👨‍💻 貢獻
+## License
 
-歡迎提交 Issue 和 Pull Request！
+MIT License
 
-## 📧 聯繫方式
+## Disclaimer
 
-如有問題，請通過 GitHub Issues 聯繫。
+⚠️ Cryptocurrency trading involves substantial risk. This tool is for educational purposes only. Always test with small amounts before actual trading.

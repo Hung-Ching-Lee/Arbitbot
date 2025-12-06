@@ -1,61 +1,61 @@
 """
-配置管理模組
+Configuration and Constants
 """
 
-import os
-import yaml
-from typing import Dict, Any
+# Supported cryptocurrencies
+CRYPTO_PAIRS = [
+    {'symbol': 'BTC/USDT', 'name': 'Bitcoin'},
+    {'symbol': 'ETH/USDT', 'name': 'Ethereum'},
+    {'symbol': 'XRP/USDT', 'name': 'Ripple'},
+    {'symbol': 'DOGE/USDT', 'name': 'Dogecoin'},
+    {'symbol': 'SOL/USDT', 'name': 'Solana'},
+    {'symbol': 'ADA/USDT', 'name': 'Cardano'},
+    {'symbol': 'DOT/USDT', 'name': 'Polkadot'},
+    {'symbol': 'LTC/USDT', 'name': 'Litecoin'},
+    {'symbol': 'BCH/USDT', 'name': 'Bitcoin Cash'},
+    {'symbol': 'LINK/USDT', 'name': 'Chainlink'},
+    {'symbol': 'VET/USDT', 'name': 'VeChain'},
+    {'symbol': 'TRX/USDT', 'name': 'TRON'},
+    {'symbol': 'MATIC/USDT', 'name': 'Polygon'},
+    {'symbol': 'AVAX/USDT', 'name': 'Avalanche'},
+]
 
+# Supported exchanges
+ALL_EXCHANGES = [
+    'binance',
+    'bybit',
+    'okx',
+    'kucoin',
+    'huobi',
+    'gate',
+    'kraken',
+    'coinbase',
+    'bitfinex'
+]
 
-class Config:
-    """配置管理類"""
+# Default taker fees per exchange
+DEFAULT_FEES = {
+    'binance': 0.001,
+    'bybit': 0.0007,
+    'okx': 0.0008,
+    'kucoin': 0.001,
+    'huobi': 0.002,
+    'gate': 0.0015,
+    'kraken': 0.0016,
+    'coinbase': 0.004,
+    'bitfinex': 0.001,
+}
 
-    def __init__(self, config_file: str = None):
-        """
-        初始化配置
-        
-        Args:
-            config_file: YAML 配置文件路徑
-        """
-        self.config = {}
-        if config_file and os.path.exists(config_file):
-            self.load_from_file(config_file)
-        else:
-            self.load_from_env()
+# Check intervals (seconds)
+CHECK_INTERVALS = {
+    '30s': 30,
+    '1min': 60,
+    '5min': 300,
+    '10min': 600,
+    '30min': 1800,
+    '1hr': 3600,
+}
 
-    def load_from_file(self, config_file: str):
-        """從 YAML 文件加載配置"""
-        with open(config_file, 'r', encoding='utf-8') as f:
-            self.config = yaml.safe_load(f)
-
-    def load_from_env(self):
-        """從環境變數加載配置"""
-        self.config = {
-            'exchanges': {
-                'exchange1': os.getenv('EXCHANGE1', 'binance'),
-                'exchange2': os.getenv('EXCHANGE2', 'bybit'),
-            },
-            'telegram': {
-                'token': os.getenv('TELEGRAM_TOKEN', ''),
-                'chat_id': os.getenv('TELEGRAM_CHAT_ID', ''),
-            },
-            'arbitrage': {
-                'profit_threshold': float(os.getenv('PROFIT_THRESHOLD', '0.5')),
-                'symbols': os.getenv('SYMBOLS', 'BTC/USDT,ETH/USDT').split(','),
-                'check_interval': int(os.getenv('CHECK_INTERVAL', '60')),
-            }
-        }
-
-    def get(self, key: str, default: Any = None) -> Any:
-        """獲取配置值"""
-        keys = key.split('.')
-        value = self.config
-        for k in keys:
-            if isinstance(value, dict):
-                value = value.get(k)
-            else:
-                return default
-        return value if value is not None else default
-
-    def __repr__(self):
-        return f"<Config {self.config}>"
+# Profit threshold range
+MIN_PROFIT_THRESHOLD = 0.01  # 0.01%
+MAX_PROFIT_THRESHOLD = 5.0   # 5.0%
